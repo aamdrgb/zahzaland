@@ -25,6 +25,29 @@
     c.addEventListener('click', function(){ c.classList.toggle('on'); });
   });
 
+  // Confetti burst (canvas-confetti library), brand colors
+  var COLORS = ['#FFD24A','#FF8FB1','#4FC3F7','#7FD3BE','#FFB74D','#B39DDB'];
+  function burst(x,y,n){
+    if (reduce || typeof confetti === 'undefined') return;
+    confetti({particleCount:n||60, spread:80, startVelocity:38, origin:{x:x,y:y}, colors:COLORS, scalar:1.1, ticks:140});
+  }
+  // The little "say" tag on each card back pops confetti
+  $$('.say').forEach(function(b){
+    b.addEventListener('click', function(e){ e.stopPropagation(); var r=b.getBoundingClientRect(); burst((r.left+r.width/2)/innerWidth,(r.top+r.height/2)/innerHeight,70); });
+  });
+  // Tap a hero character: confetti + a speech bubble with its catchphrase
+  var says = ['يلا نشوف!','أوبس! نجرب تاني','معلومة صغيرة!','ميااو! مش قصدي!','كان يا ما كان...'];
+  $$('#cast .c').forEach(function(c,i){
+    c.addEventListener('click', function(){
+      var r=c.getBoundingClientRect(); burst((r.left+r.width/2)/innerWidth,(r.top+r.height*.3)/innerHeight,45);
+      var b=document.createElement('div'); b.className='speech'; b.textContent=says[i%says.length];
+      b.style.left=(r.left+r.width/2)+'px'; b.style.top=(r.top+r.height*.15)+'px'; document.body.appendChild(b);
+      setTimeout(function(){ b.remove(); },1400);
+    });
+  });
+  // Vanilla-tilt library: soft 3D tilt on stat tiles
+  if (!reduce && window.VanillaTilt) VanillaTilt.init($$('.stat'),{max:12,speed:400,glare:true,'max-glare':.25});
+
   // Step highlighting helper
   var steps = $$('#steps .step');
   function setStep(i){ steps.forEach(function(s,k){ s.classList.toggle('on', k===i); }); }
@@ -83,6 +106,12 @@
 
   // Cards pop in with bounce
   gsap.from('#cards .flip',{scrollTrigger:{trigger:'#cards',start:'top 82%'}, y:80, scale:.7, rotate:function(i){return (i%2?4:-4)}, opacity:0, duration:.8, ease:'back.out(1.7)', stagger:.12});
+
+  // Confetti rain when the final CTA scrolls into view
+  ScrollTrigger.create({trigger:'.final',start:'top 60%',once:true,onEnter:function(){ burst(.2,.6,70); burst(.8,.6,70); }});
+  // Hero characters float up gently as you scroll away (parallax)
+  gsap.to('#cast',{scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true},y:-60,ease:'none'});
+  gsap.to('.fl',{scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true},y:function(i){return -40-i*18},ease:'none'});
 
   // Stats and final CTA
   gsap.from('.stat',{scrollTrigger:{trigger:'#stats',start:'top 85%'}, y:50, scale:.8, opacity:0, duration:.7, ease:'back.out(2)', stagger:.1});

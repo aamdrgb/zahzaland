@@ -157,3 +157,18 @@ footer .logo{width:170px;background:var(--bg);border-radius:99px;padding:.2rem .
   *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
   .track{flex-wrap:wrap}
 }
+
+/* ===== floating confetti-like decorations in the hero ===== */
+.fl{position:absolute;z-index:1;font-style:normal;font-weight:900;pointer-events:none;animation:flt 5s ease-in-out infinite;text-shadow:0 3px 0 rgba(59,42,85,.12)}
+.f1{top:22%;right:6%;font-size:2.6rem;color:#FFD24A}.f2{top:38%;left:7%;font-size:2.2rem;color:#FF8FB1;animation-delay:-1s}
+.f3{top:14%;left:18%;font-size:2rem;color:#4FC3F7;animation-delay:-2s}.f4{top:52%;right:12%;font-size:1.6rem;color:#7FD3BE;animation-delay:-3s}
+.f5{top:30%;left:38%;font-size:1.6rem;color:#FFB74D;animation-delay:-1.5s}.f6{top:60%;left:5%;font-size:2.4rem;color:#B39DDB;animation-delay:-2.5s}
+.f7{top:12%;right:30%;font-size:2rem;color:#FF8FB1;animation-delay:-.5s}.f8{top:46%;right:3%;font-size:2rem;color:#FFD24A;animation-delay:-3.5s}
+@keyframes flt{0%,100%{transform:translateY(0) rotate(-8deg) scale(1)}50%{transform:translateY(-22px) rotate(10deg) scale(1.18)}}
+/* speech bubble when a character is tapped */
+.speech{position:fixed;z-index:60;background:#fff;color:var(--dark,#3B2A55);font:900 1.15rem/1.2 'Noto Kufi Arabic',sans-serif;padding:.55rem 1rem;border-radius:999px;box-shadow:0 8px 0 rgba(59,42,85,.18);pointer-events:none;white-space:nowrap;transform:translate(-50%,-100%)}
+.say{cursor:pointer;transition:transform .2s}.say:hover{transform:scale(1.12) rotate(-3deg)}
+.cast .c{cursor:pointer}
+@media (max-width:600px){.fl{font-size:1.3rem!important}}
+@media (prefers-reduced-motion:reduce){.fl{animation:none}}
+.powered{display:inline-block;margin-top:.8rem;font:700 .95rem Tajawal,sans-serif;direction:ltr;color:var(--yellow,#FFD24A);text-decoration:none;border-bottom:2px dotted currentColor}.powered:hover{color:#fff}
